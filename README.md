@@ -41,11 +41,62 @@ We will be working from the `training/one-to-many` branches of each.
 
 ## Multiple Resources
 
+We've got a single resource and all of its components (routes, controller,
+model, migration) for each domain we're working in. Let's go in and create a
+second resource for each.
+
 ### Demo: Create Author Routes and Controller
+
+In [rails-api-library-demo](https://github.com/ga-wdi-boston/rails-api-library-demo),
+you've seen a `books` resource created.
+
+In order to create a pairing `author` resouce, we'll need to start with our
+first lines of action: a route, then controller. Pay attention as I create
+these.
+
+> Note: using Rails' `resources :<resource_name>` creates all 7 default resource
+> routes (`index`, `show`, `create`, `update`, `delete`, `new`, `edit`).
+> `new` and `edit` controller actions are only used with views, so typically
+> with API routes, it is safe to declare
+> `resources :<resource_name>, except: [:new, :edit]`
 
 ### Code Along: Create Doctor Routes and Controller
 
+We're going to go through the same motions as my demo and create resource
+routes and a controller for a `doctors` resource.
+
 ### Lab: Create Recipe Routes and Controller
+
+Work methodically in [rails-api-cookbook-lab](https://github.com/ga-wdi-boston/rails-api-cookbook-lab)
+to first create resource routes for `recipes`.
+
+Once your resource routes are created, create a `RecipesController` with the 5
+default API controller actions.
+
+### Demo: Create Author Model
+
+We've created our routes and controller for the `authors` resource, but we're
+now stuck at the following error:
+
+> `uninitialized constant AuthorsController::Author`
+
+The `::Author` portion of this should indicate to you that an `Author` model is
+
+> As a reminder, generator short-hand for model creation is:
+> `rails generate model author given_name surname`
+
+### Code Along: Create Doctor Model
+
+Let's create a `Doctor` model with `given_name` and `surname` fields and run
+migrations.
+
+### Lab: Create Recipe Model
+
+Go ahead and create a `Recipe` model with `name` and `family_favorite`
+(boolean) fields.  Don't forget to run your migration!
+
+Once that's created, use your `rails console` to create a recipe. See if you
+can access them at localhost:3000/recipes.
 
 ## `has_many`
 
