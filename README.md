@@ -100,21 +100,100 @@ can access them at localhost:3000/recipes.
 
 ## `has_many`
 
+Often, the resources of our application will have a relationship with each
+other. In our three domains, authors have many books, doctors have many
+patients, and recipes have many ingredients.
+
+Versus having ownership information writen in two different tables (i.e.,
+doctors' info saved to their own table as well as rewritten in the patients'
+table), we want to make sure we set up a foreign key association between the
+two.
+
+How can we reflect this in Rails?
+
+Simple. We begin by applying the `has_many` macro to the parent resource models.
+
 ### Demo: Author `has_many` Books
 
-### Code Along: Doctor `has_many` Patients
+I'll apply the `has_many` macro to the Author model.
 
-### Lab: Recipe `has_many` Ingredients
+Once doing this, the `has_many` macro provides us with many useful getters and
+setters:
+
+```rb
+Author#books
+Author#books<<
+Author#books.delete
+Author#books.destroy
+Author#books=
+Author#book_ids
+Author#book_ids=
+Author#books.clear
+Author#books.empty?
+Author#books.size
+Author#books.find
+Author#books.exists?
+Author#books.build
+Author#books.create
+Author#books.create!
+```
 
 ## `belongs_to`
 
+To complete this model relationship in Rails, the class on the `many` side must
+use the `belongs_to` macro.
+
 ### Demo: Book `belongs_to` Author
 
-### Code Along: Patient `belongs_to` Doctor
+Watch as I add this macro to the Book model. Take note of singular vs. plural
+conventions for both `belongs_to` and `has_many`.
 
-### Lab: Ingredient `belongs_to` Recipe
+### Code Along: Doctor `has_many` Patients, Patient `belongs_to` Doctor
+
+Let's add `has_many` and `belongs_to` macros where appropriate for our doctors
+to have many patients and our patients to belong to a doctor.
+
+### Lab: Recipe `has_many` Ingredients, Ingredient `belongs_to` Recipe
+
+Go ahead and set up recipes to have many ingredients, and ingredients to belong
+to a recipe.
 
 ## Modifying Migrations
+
+We've almost finished with our relationships. We need one last thing - a
+foreign key reference column on our books, patients, and ingredients tables.
+This will allow us to reference the respective author, doctor, and recipe each
+instance belongs to by ID.
+
+## Demo: Modify Books Migration
+
+To update our `books` migration, we have a couple of options:
+
+1.  Hand-edit our existing books migration, rollback our database, and remigrate
+1.  Generate a migration change to add a foreign key column to our books table
+
+We'll be going with the latter. Why? Remember that migrations occur in the
+order of their timestamps. If we go in and modify our books migration (which,
+in theory, has an earlier timestamp than the authors migration), and make a
+reference to the authors table before it exists, our migration will fail.
+
+Watch as I generate this migration change with:
+
+```ruby
+rails g migration AddAuthorToBooks author:references
+```
+
+Let's play with our results in `rails console`.
+
+## Code Along: Modify Patients Migration
+
+Together, let's run a migration to add a `doctor` column with the appropriate
+ reference to your `patients` table.
+
+## Lab: Modify Ingredients Migration
+
+Your turn! Run a migration to add a `recipe` column with the appropriate
+ reference to your `ingredients` table.
 
 ## Further Reading
 
