@@ -19,19 +19,23 @@ Just as we can use ActiveRecord to read, change, update, and delete data from
  and `belongs_to`.
 -   Create associated records using the rails console.
 
-## Instructions
+## Preparation
 
-Fork, clone, branch (training), and `bundle install`.
-
-Then create the database and run migrations.
+1.  Fork and clone this repository.
+1.  Change into the new directory.
+1.  Install dependencies with `bundle install`.
+1.  Add secrets to `config/secrets.yml`.
+1.  Create a database with `bundle exec rake db:create`.
+1.  Create a database schema with `bundle exec rake db:migrate`.
+1.  Run the HTTP server with `bundle exec rails server`.
 
 ## Multiple Resources
 
-### Demo: Create Author Controller
+### Demo: Create Author Routes and Controller
 
-### Code Along: Create Doctor Controller
+### Code Along: Create Doctor Routes and Controller
 
-### Lab: Create Recipe Controller
+### Lab: Create Recipe Routes and Controller
 
 ## `has_many`
 
@@ -51,7 +55,7 @@ Then create the database and run migrations.
 
 ## Modifying Migrations
 
-## Resources
+## Further Reading
 
 -   [Rails Association Basics](http://guides.rubyonrails.org/association_basics.html)
  Read the sections on belongs_to and has_many.
