@@ -8,6 +8,16 @@ Just as we can use ActiveRecord to read, change, update, and delete data from
  our database, we can use ActiveRecord relationship methods to associate records
  with one another using Ruby code.
 
+## Prerequisites
+
+This lesson assumes you have forked and cloned the following:
+
+-   [rails-api-library-demo](https://github.com/ga-wdi-boston/rails-api-library-demo)
+-   [rails-api-clinic-code-along](https://github.com/ga-wdi-boston/rails-api-clinic-code-along)
+-   [rails-api-cookbook-lab](https://github.com/ga-wdi-boston/rails-api-cookbook-lab)
+
+We will be working from the `training/one-to-many` branches of each.
+
 ## Objectives
 
 -   Digram the database tables and Entity Relationship Diagram that describe a
