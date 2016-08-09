@@ -63,7 +63,7 @@ these.
 ### Code Along: Create Doctor Routes and Controller
 
 We're going to go through the same motions as my demo and create resource
-routes and a controller for a `doctors` resource.
+routes and a controller for a `doctors` resource in [rails-api-clinic-code-along](https://github.com/ga-wdi-boston/rails-api-clinic-code-along).
 
 ### Lab: Create Recipe Routes and Controller
 
@@ -81,6 +81,7 @@ now stuck at the following error:
 > `uninitialized constant AuthorsController::Author`
 
 The `::Author` portion of this should indicate to you that an `Author` model is
+either erroneous or, as it is in this case, missing.
 
 > As a reminder, generator short-hand for model creation is:
 > `rails generate model author given_name surname`
