@@ -33,11 +33,6 @@ We will be working from the `training/one-to-many` branches of each.
 
 1.  Fork and clone this repository.
 1.  Change into the new directory.
-1.  Install dependencies with `bundle install`.
-1.  Add secrets to `config/secrets.yml`.
-1.  Create a database with `bundle exec rake db:create`.
-1.  Create a database schema with `bundle exec rake db:migrate`.
-1.  Run the HTTP server with `bundle exec rails server`.
 
 ## Multiple Resources
 
