@@ -96,7 +96,7 @@ can access them at localhost:3000/recipes.
 
 ## `has_many`
 
-Often, the resources of our application will have a relationship with each
+Often, the resources of our application will have relationships with each
 other. In our three domains, authors have many books, doctors have many
 patients, and recipes have many ingredients.
 
