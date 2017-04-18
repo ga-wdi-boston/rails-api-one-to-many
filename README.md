@@ -20,7 +20,7 @@ We will be working from the `training/one-to-many` branches of each.
 
 ## Objectives
 
--   Digram the database tables and Entity Relationship Diagram that describe a
+-   Diagram the database tables and Entity Relationship Diagram that describe a
  one-to-many relationship.
 -   Write a migration for a one-to-many relationship.
 -   Associate plain Ruby objects with one another.
