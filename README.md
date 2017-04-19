@@ -91,7 +91,7 @@ Expected string default value for '--serializer'; got true (boolean)
 `route    resources :authors`
 
 This has just added `  resources :authors` to our `config/routes.rb` file. Let's
-add a few modifiers here since we don't need the `new` or `edit` routes.
+add a few modifiers here since we won't need the `new` or `edit` routes.
 
 ```diff
 Rails.application.routes.draw do
@@ -106,21 +106,24 @@ Rails.application.routes.draw do
 WOAHHHHHH! You mean, that little `rails generate` command wrote all of this for
 us!??! Somebody get these guys a raise!
 
-Let's walk through every line of the `controller` file and see how it works...
+Let's walk through the `controller` file though and make sure it looks right.
 
-Looks pretty similar to our `PatientsController`.
+Ok, it looks pretty similar to our `PatientsController`, and everything seems
+in order. Now, let's make sure it works by testing each action using `curl`.
 
 _*WARNING:*_
-We must be *mindful* of how much code
-`scaffold` creates, there are many instances that you may not WANT all actions.
-How would you modify this file if you didn't want anyone to be able to `create`
-doctors? Is this the only place we would need to modify our code?
+We must be *mindful* of how much code `scaffold` creates, there are many
+instances that you may not WANT all actions. How would you modify this file if
+you didn't want anyone to be able to `create` doctors? Is this the *only place*
+we would need to modify our code? If we delete a `create` action, we must also
+add it to the `except [:new, :edit, :create]` list!
 
 ## Model File
 
 `create    app/models/author.rb`
 
-...not much new here.
+...not much new here. `Author` inherits from `ApplicationRecord` which gives us
+all the methods we need in the controller (like `.new`, `.all`, etc.)
 
 ## Migration File
 
@@ -129,9 +132,9 @@ doctors? Is this the only place we would need to modify our code?
 This file sets up our migration using the command-line arguments we passed
 with `bin/rails generate scaffold` command. Since we haven't migrated yet,
 we can still modify this file to make some values required. In order to perform
-validation before we save, we can alter our migration, and add the flag
-`null: false`, thus preventing records from being saved that don't have these
-values present.
+validation before we save an Author to the database, we can alter our migration,
+and add the flag `null: false`. This tells SQL to prevent records from being
+saved that don't have these values present.
 
 ```diff
 class CreateAuthors < ActiveRecord::Migration[5.0]
@@ -175,7 +178,13 @@ bin/rails generate serializer book
 
 ### Code-Along: Scaffold Doctor Routes, Controller, Model, and Serializer
 
+Doctors have `given_name`, `family_name`, `specialty`, and `gender`.
+
 ### Lab: Scaffold Recipe Routes, Controller, Model, and Serializer
+
+Recipes have `name` and `directions`.
+
+### Rails Relationships and MacroMethods
 
 ## `has_many`
 
