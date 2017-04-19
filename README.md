@@ -43,46 +43,66 @@ We've got a single resource and all of its components (routes, controller,
 model, migration) for each domain we're working in. Let's go in and create a
 second resource for each.
 
-### Demo: Create Author Routes and Controller
+### Demo: Scaffold Author Routes, Controller, Model, and Serializer
 
 In [rails-api-library-demo](https://github.com/ga-wdi-boston/rails-api-library-demo),
 you've seen a `books` resource created.
 
-In order to create a pairing `author` resouce, we'll need to start with our
-first lines of action: a route, then controller. Pay attention as I create
-these.
-
-> Note: using Rails' `resources :<resource_name>` creates all 7 default resource
-> routes (`index`, `show`, `create`, `update`, `delete`, `new`, `edit`).
-> `new` and `edit` controller actions are only used with views, so typically
-> with API routes, it is safe to declare
-> `resources :<resource_name>, except: [:new, :edit]`
-
-### Code Along: Create Doctor Routes and Controller
-
-We're going to go through the same motions as my demo and create resource
-routes and a controller for a `doctors` resource in [rails-api-clinic-code-along](https://github.com/ga-wdi-boston/rails-api-clinic-code-along).
-
-### Lab: Create Recipe Routes and Controller
-
-Work methodically in [rails-api-cookbook-lab](https://github.com/ga-wdi-boston/rails-api-cookbook-lab)
-to first create resource routes for `recipes`.
-
-Once your resource routes are created, create a `RecipesController` with the 5
-default API controller actions.
+In order to create a pairing `author` resouce, we'll need to repeat what was done in the last talk. However, since we've seen this already, we're going to use a generator that creates more than one piece at a time, and modify it accordingly.
 
 ### Demo: Create Author Model
 
-We've created our routes and controller for the `authors` resource, but we're
-now stuck at the following error:
+If we open a browser and hit `/authors` we get back: `No route matches [GET] \"/authors\"`, which makes sense. We haven't done *anything* with authors yet.
 
-> `uninitialized constant AuthorsController::Author`
+In order to generate the code we wrote by hand for `patients` we can use the following (shortcut) command:
+> `bin/rails generate scaffold author given_name:string family_name:string specialty:string gender:string`
 
-The `::Author` portion of this should indicate to you that an `Author` model is
-either erroneous or, as it is in this case, missing.
+Now let's examine each of the files it created!
+```
+~/wdi/training/rails-api-library-demo (tutorial)$ bin/rails generate scaffold author given_name:string family_name:string specialty:string gender:string
+Running via Spring preloader in process 17246
+Expected string default value for '--serializer'; got true (boolean)
+      invoke  active_record
+      create    db/migrate/20170419183303_create_authors.rb
+      create    app/models/author.rb
+      invoke    rspec
+      create      spec/models/author_spec.rb
+      invoke  resource_route
+       route    resources :authors
+      invoke  serializer
+      create    app/serializers/author_serializer.rb
+      invoke  scaffold_controller
+      create    app/controllers/authors_controller.rb
+      invoke    rspec
+      create      spec/controllers/authors_controller_spec.rb
+      create      spec/routing/authors_routing_spec.rb
+      invoke      rspec
+      create        spec/requests/authors_spec.rb
+```
 
-> As a reminder, generator short-hand for model creation is:
-> `bin/rails generate model author given_name:string family_name:string specialty:string gender:string`
+## Migration File
+
+`create    db/migrate/20170419183303_create_authors.rb`
+
+This file sets up our migration using the command-line arguments we passed
+with `bin/rails generate scaffold` command. Since we haven't migrated yet,
+we can still modify this file to make some values required.
+```diff
+class CreateAuthors < ActiveRecord::Migration[5.0]
+  def change
+    create_table :authors do |t|
+-      t.string :given_name
++      t.string :given_name, null: false
+-      t.string :family_name
++      t.string :family_name, null: false
+      t.string :specialty
+      t.string :gender
+
+      t.timestamps
+    end
+  end
+end
+```
 
 ### Code Along: Create Doctor Model
 
