@@ -43,23 +43,29 @@ We've got a single resource and all of its components (routes, controller,
 model, migration) for each domain we're working in. Let's go in and create a
 second resource for each.
 
-### Demo: Scaffold Author Routes, Controller, Model, and Serializer
+### Demo: Add Another Resource
 
 In [rails-api-library-demo](https://github.com/ga-wdi-boston/rails-api-library-demo),
 you've seen a `books` resource created.
 
-In order to create a pairing `author` resouce, we'll need to repeat what was done in the last talk. However, since we've seen this already, we're going to use a generator that creates more than one piece at a time, and modify it accordingly.
+In order to create a pairing `author` resouce, we'll need to repeat what was
+done in the last talk. However, since we've seen this already, we're going to
+use a generator that creates more than one piece at a time, and modify it
+accordingly.
 
-### Demo: Create Author Model
+### Demo: Scaffold Author Routes, Controller, Model, and Serializer
 
-If we open a browser and hit `/authors` we get back: `No route matches [GET] \"/authors\"`, which makes sense. We haven't done *anything* with authors yet.
+If we open a browser and hit `/authors` we get back: `No route matches [GET]
+\"/authors\"`, which makes sense. We haven't done *anything* with authors yet.
 
-In order to generate the code we wrote by hand for `patients` we can use the following (shortcut) command:
-> `bin/rails generate scaffold author given_name:string family_name:string specialty:string gender:string`
+In order to generate the code we wrote by hand for `patients` we can use the
+following (shortcut) command:
+> `bin/rails generate scaffold author given_name:string family_name:string`
 
 Now let's examine each of the files it created!
 ```
-~/wdi/training/rails-api-library-demo (tutorial)$ bin/rails generate scaffold author given_name:string family_name:string specialty:string gender:string
+~/wdi/training/rails-api-library-demo (tutorial)$ bin/rails generate scaffold
+author given_name:string family_name:string
 Running via Spring preloader in process 17246
 Expected string default value for '--serializer'; got true (boolean)
       invoke  active_record
@@ -80,13 +86,53 @@ Expected string default value for '--serializer'; got true (boolean)
       create        spec/requests/authors_spec.rb
 ```
 
+## Routes
+
+`route    resources :authors`
+
+This has just added `  resources :authors` to our `config/routes.rb` file. Let's
+add a few modifiers here since we don't need the `new` or `edit` routes.
+
+```diff
+Rails.application.routes.draw do
+-  resources :authors
++  resources :authors, except: [:new, :edit]
+```
+
+## Controller
+
+`create    app/controllers/authors_controller.rb`
+
+WOAHHHHHH! You mean, that little `rails generate` command wrote all of this for
+us!??! Somebody get these guys a raise!
+
+Let's walk through every line of the `controller` file and see how it works...
+
+Looks pretty similar to our `PatientsController`.
+
+_*WARNING:*_
+We must be *mindful* of how much code
+`scaffold` creates, there are many instances that you may not WANT all actions.
+How would you modify this file if you didn't want anyone to be able to `create`
+doctors? Is this the only place we would need to modify our code?
+
+## Model File
+
+`create    app/models/author.rb`
+
+...not much new here.
+
 ## Migration File
 
 `create    db/migrate/20170419183303_create_authors.rb`
 
 This file sets up our migration using the command-line arguments we passed
 with `bin/rails generate scaffold` command. Since we haven't migrated yet,
-we can still modify this file to make some values required.
+we can still modify this file to make some values required. In order to perform
+validation before we save, we can alter our migration, and add the flag
+`null: false`, thus preventing records from being saved that don't have these
+values present.
+
 ```diff
 class CreateAuthors < ActiveRecord::Migration[5.0]
   def change
@@ -95,8 +141,6 @@ class CreateAuthors < ActiveRecord::Migration[5.0]
 +      t.string :given_name, null: false
 -      t.string :family_name
 +      t.string :family_name, null: false
-      t.string :specialty
-      t.string :gender
 
       t.timestamps
     end
@@ -104,18 +148,34 @@ class CreateAuthors < ActiveRecord::Migration[5.0]
 end
 ```
 
-### Code Along: Create Doctor Model
+## Serializer
 
-Let's create a `Doctor` model with `given_name` and `surname` fields and run
-migrations.
+`create    app/serializers/author_serializer.rb`
 
-### Lab: Create Recipe Model
+A serializer is a file that allows us to customize the output that rails sends
+as JSON from our server. By default it looks like this:
 
-Go ahead and create a `Recipe` model with `name` and `family_favorite`
-(boolean) fields.  Don't forget to run your migration!
+```ruby
+class AuthorSerializer < ActiveModel::Serializer
+  attributes :id, :given_name, :family_name
+end
+```
 
-Once that's created, use your `rails console` to create a recipe. See if you
-can access them at localhost:4147/recipes.
+What would happen if we took `:given_name` out?
+
+Are there any differences between the JSON that gets sent for an `author`, and
+what gets sent for `book`?
+
+What are `created_at` and `updated_at`? Let's also add a serializer for
+`book` while we're at it:
+
+```bash
+bin/rails generate serializer book
+```
+
+### Code-Along: Scaffold Doctor Routes, Controller, Model, and Serializer
+
+### Lab: Scaffold Recipe Routes, Controller, Model, and Serializer
 
 ## `has_many`
 
@@ -202,7 +262,8 @@ Watch as I generate this migration change with:
 bin/rails generate migration AddAuthorToBooks author:references
 ```
 
-Let's play with our results in `bin/rails console`.
+Let's play with our results in `bin/rails console` and assign Books to Authors
+using `Book.author = Author.find(id)`.
 
 ## Code Along: Modify Patients Migration
 
