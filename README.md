@@ -10,13 +10,16 @@ Just as we can use ActiveRecord to read, change, update, and delete data from
 
 ## Prerequisites
 
-This lesson assumes you have forked and cloned the following:
+This lesson assumes you have gone through -   [Rails API: Single
+ Resource](https://github.com/ga-wdi-boston/rails-api-single-resource) with the
+ following:
 
--   [rails-api-library-demo](https://github.com/ga-wdi-boston/rails-api-library-demo)
--   [rails-api-clinic-code-along](https://github.com/ga-wdi-boston/rails-api-clinic-code-along)
--   [rails-api-cookbook-lab](https://github.com/ga-wdi-boston/rails-api-cookbook-lab)
+-   [Library API](https://github.com/ga-wdi-boston/rails-api-library-demo)
+-   [Clinic API](https://github.com/ga-wdi-boston/rails-api-clinic-code-along)
+-   [Cookbook API](https://github.com/ga-wdi-boston/rails-api-cookbook-lab)
 
-We will be working from the `training/one-to-many` branches of each.
+If you are behind, or don't have correct code, please speak with the instructor
+immediately so you don't fall further behind.
 
 ## Objectives
 
@@ -79,7 +82,7 @@ The `::Author` portion of this should indicate to you that an `Author` model is
 either erroneous or, as it is in this case, missing.
 
 > As a reminder, generator short-hand for model creation is:
-> `rails generate model author given_name surname`
+> `bin/rails generate model author:string given_name:string surname:string`
 
 ### Code Along: Create Doctor Model
 
@@ -92,7 +95,7 @@ Go ahead and create a `Recipe` model with `name` and `family_favorite`
 (boolean) fields.  Don't forget to run your migration!
 
 Once that's created, use your `rails console` to create a recipe. See if you
-can access them at localhost:3000/recipes.
+can access them at localhost:4147/recipes.
 
 ## `has_many`
 
@@ -136,8 +139,8 @@ Author#books.create!
 
 ## `belongs_to`
 
-To complete this model relationship in Rails, the class on the `many` side must
-use the `belongs_to` macro.
+To complete this model relationship in Rails, the other side of the
+relationship must use the `belongs_to` macro.
 
 ### Demo: Book `belongs_to` Author
 
@@ -176,10 +179,10 @@ reference to the authors table before it exists, our migration will fail.
 Watch as I generate this migration change with:
 
 ```ruby
-rails g migration AddAuthorToBooks author:references
+bin/rails generate migration AddAuthorToBooks author:references
 ```
 
-Let's play with our results in `rails console`.
+Let's play with our results in `bin/rails console`.
 
 ## Code Along: Modify Patients Migration
 
