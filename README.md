@@ -82,7 +82,7 @@ The `::Author` portion of this should indicate to you that an `Author` model is
 either erroneous or, as it is in this case, missing.
 
 > As a reminder, generator short-hand for model creation is:
-> `bin/rails generate model author:string given_name:string surname:string`
+> `bin/rails generate model author given_name:string family_name:string specialty:string gender:string`
 
 ### Code Along: Create Doctor Model
 
